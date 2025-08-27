@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Precios - CONDUCE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e40af 0%, #7c3aed 50%, #dc2626 100%);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .service-card {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .price-display {
+            background: linear-gradient(135deg, #dc2626, #ea580c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button.active {
+            background: linear-gradient(135deg, #1e40af, #7c3aed);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .vehicle-option, .license-option, .course-option {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .vehicle-option.selected, .license-option.selected, .course-option.selected {
+            background: linear-gradient(135deg, #1e40af, #7c3aed) !important;
+            color: white !important;
+            transform: scale(1.02);
+        }
+        
+
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">
+                CONDUCE
+            </h1>
+            <p class="text-xl text-white/80 font-light">
+                Escuela de Manejo y Examinadora
+            </p>
+            <p class="text-lg text-white/70 mt-2">
+                📍 San Francisco Gotera, Morazán
+            </p>
+        </div>
+
+        <!-- Service Tabs -->
+        <div class="max-w-6xl mx-auto mb-8">
+            <div class="flex flex-wrap justify-center gap-2 mb-8">
+                <button onclick="showTab('courses')" id="coursesTab" class="tab-button active px-4 py-3 rounded-xl font-semibold bg-white/20 text-white text-sm">
+                    🚗 Cursos
+                </button>
+                <button onclick="showTab('carLicense')" id="carLicenseTab" class="tab-button px-4 py-3 rounded-xl font-semibold bg-white/20 text-white text-sm">
+                    🚘 Carro
+                </button>
+                <button onclick="showTab('motorbikeLicense')" id="motorbikeLicenseTab" class="tab-button px-4 py-3 rounded-xl font-semibold bg-white/20 text-white text-sm">
+                    🏍️ Moto
+                </button>
+                <button onclick="showTab('combinedLicense')" id="combinedLicenseTab" class="tab-button px-4 py-3 rounded-xl font-semibold bg-white/20 text-white text-sm">
+                    🚘🏍️ Carro + Moto
+                </button>
+                <button onclick="showTab('juvenileLicense')" id="juvenileLicenseTab" class="tab-button px-4 py-3 rounded-xl font-semibold bg-white/20 text-white text-sm">
+                    👦 Juvenil
+                </button>
+                <button onclick="showTab('categoryChange')" id="categoryChangeTab" class="tab-button px-4 py-3 rounded-xl font-semibold bg-white/20 text-white text-sm">
+                    🔄 Canje
+                </button>
+            </div>
+
+            <!-- Courses Tab -->
+            <div id="coursesContent" class="tab-content">
+                <div class="glass-effect rounded-3xl p-8">
+                    <div class="grid lg:grid-cols-2 gap-8">
+                        <!-- Course Selection -->
+                        <div>
+                            <h2 class="text-2xl font-semibold text-white mb-6">
+                                📚 Selecciona tu Curso
+                            </h2>
+                            
+                            <!-- Course Options -->
+                            <div class="space-y-4 mb-6">
+                                <div onclick="selectCourse('principiante')" id="principiante" class="course-option service-card bg-white rounded-2xl p-6 cursor-pointer">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <h3 class="text-lg font-semibold text-gray-800">🌟 Principiante</h3>
+                                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                                            Recomendado
+                                        </span>
+                                    </div>
+                                    <p class="text-gray-600 text-sm mb-3">13 días prácticas + 2 días teoría</p>
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <span class="text-sm text-gray-500">Sedán: </span>
+                                            <span class="font-bold text-blue-600">$220</span>
+                                        </div>
+                                        <div>
+                                            <span class="text-sm text-gray-500">Pick-up: </span>
+                                            <span class="font-bold text-purple-600">$245</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div onclick="selectCourse('completo')" id="completo" class="course-option service-card bg-white rounded-2xl p-6 cursor-pointer">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <h3 class="text-lg font-semibold text-gray-800">🎯 Completo</h3>
+                                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                                            Popular
+                                        </span>
+                                    </div>
+                                    <p class="text-gray-600 text-sm mb-3">10 días prácticas + 2 días teoría</p>
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <span class="text-sm text-gray-500">Sedán: </span>
+                                            <span class="font-bold text-blue-600">$185</span>
+                                        </div>
+                                        <div>
+                                            <span class="text-sm text-gray-500">Pick-up: </span>
+                                            <span class="font-bold text-purple-600">$210</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div onclick="selectCourse('intermedio')" id="intermedio" class="course-option service-card bg-white rounded-2xl p-6 cursor-pointer">
+                                    <h3 class="text-lg font-semibold text-gray-800 mb-3">⚡ Intermedio</h3>
+                                    <p class="text-gray-600 text-sm mb-3">8 días prácticas + 2 días teoría</p>
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <span class="text-sm text-gray-500">Sedán: </span>
+                                            <span class="font-bold text-blue-600">$155</span>
+                                        </div>
+                                        <div>
+                                            <span class="text-sm text-gray-500">Pick-up: </span>
+                                            <span class="font-bold text-purple-600">$180</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div onclick="selectCourse('avanzado')" id="avanzado" class="course-option service-card bg-white rounded-2xl p-6 cursor-pointer">
+                                    <h3 class="text-lg font-semibold text-gray-800 mb-3">🚀 Avanzado</h3>
+                                    <p class="text-gray-600 text-sm mb-3">4 días prácticas + 2 días teoría</p>
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <span class="text-sm text-gray-500">Sedán: </span>
+                                            <span class="font-bold text-blue-600">$95</span>
+                                        </div>
+                                        <div>
+                                            <span class="text-sm text-gray-500">Pick-up: </span>
+                                            <span class="font-bold text-purple-600">$110</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Vehicle Selection -->
+                            <div class="bg-white rounded-2xl p-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">🚗 Tipo de Vehículo</h3>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div onclick="selectVehicle('sedan')" id="sedanOption" class="vehicle-option bg-gray-50 rounded-xl p-4 text-center">
+                                        <div class="text-2xl mb-2">🚗</div>
+                                        <div class="font-semibold">Sedán</div>
+                                    </div>
+                                    <div onclick="selectVehicle('pickup')" id="pickupOption" class="vehicle-option bg-gray-50 rounded-xl p-4 text-center">
+                                        <div class="text-2xl mb-2">🚙</div>
+                                        <div class="font-semibold">Pick-up</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Summary -->
+                        <div>
+                            <h2 class="text-2xl font-semibold text-white mb-6">
+                                💰 Resumen del Curso
+                            </h2>
+                            
+                            <div class="bg-white rounded-2xl p-6 shadow-lg mb-6">
+                                <div id="courseSelection" class="text-center text-gray-500 py-8">
+                                    Selecciona un curso y tipo de vehículo
+                                </div>
+                                
+                                <div id="courseSummary" class="hidden">
+                                    <div class="space-y-4 mb-6">
+                                        <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                                            <span class="text-gray-600">Curso seleccionado</span>
+                                            <span class="font-semibold" id="selectedCourseName">-</span>
+                                        </div>
+                                        <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                                            <span class="text-gray-600">Tipo de vehículo</span>
+                                            <span class="font-semibold" id="selectedVehicleType">-</span>
+                                        </div>
+                                        <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                                            <span class="text-gray-600">Duración</span>
+                                            <span class="font-semibold" id="courseDuration">-</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl p-4 text-white mb-4">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-lg font-semibold">Precio Total</span>
+                                            <span class="text-3xl font-bold" id="courseTotal">$0</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                                        <p class="text-sm text-yellow-800">
+                                            💳 <strong>Facilidades de pago:</strong> Hasta en 3 o 4 cuotas
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <button onclick="generateCourseQuote()" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-3 px-6 rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                                    📋 Generar Cotización
+                                </button>
+                            </div>
+
+                            <!-- Course Info -->
+                            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">📋 Información Importante</h3>
+                                <div class="space-y-3 text-sm text-gray-600">
+                                    <div class="flex items-start gap-2">
+                                        <span>⏰</span>
+                                        <span>Clases de 45 min (2 clases por día = 1h 30min)</span>
+                                    </div>
+                                    <div class="flex items-start gap-2">
+                                        <span>📅</span>
+                                        <span>Inscribirse con 2 semanas de anticipación</span>
+                                    </div>
+                                    <div class="flex items-start gap-2">
+                                        <span>🚗</span>
+                                        <span>Vehículos estándar con pedal adicional</span>
+                                    </div>
+                                    <div class="flex items-start gap-2">
+                                        <span>📚</span>
+                                        <span>Teoría: Jueves y sábado 9:00 a.m.</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Car License Tab -->
+            <div id="carLicenseContent" class="tab-content hidden">
+                <div class="glass-effect rounded-3xl p-8">
+                    <div class="grid lg:grid-cols-2 gap-8">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-white mb-6">
+                                🚘 Licencia de Carro
+                            </h2>
+                            
+                            <div class="space-y-6">
+                                <div onclick="selectLicenseOption('car', 'basic')" id="carBasic" class="license-option service-card bg-white rounded-2xl p-6 cursor-pointer">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <h3 class="text-lg font-semibold text-gray-800">📄 Solo Boletas</h3>
+                                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                                            Básico
+                                        </span>
+                                    </div>
+                                    <div class="text-right mb-4">
+                                        <span class="text-3xl font-bold price-display">$65</span>
+                                    </div>
+                                    <div class="space-y-2 text-sm text-gray-600">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Exámenes teórico, práctico y visual</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Preparación de copias</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Mandamiento de pago VMT</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div onclick="selectLicenseOption('car', 'complete')" id="carComplete" class="license-option service-card bg-white rounded-2xl p-6 cursor-pointer">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <h3 class="text-lg font-semibold text-gray-800">🌟 Servicio Completo</h3>
+                                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                                            Recomendado
+                                        </span>
+                                    </div>
+                                    <div class="text-right mb-4">
+                                        <span class="text-3xl font-bold price-display">$165</span>
+                                    </div>
+                                    <div class="space-y-2 text-sm text-gray-600">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Todo lo del servicio básico +</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Pagos al Banco Hipotecario</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Pago en Sertracen</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Transporte a VMT y Sertracen 🚐</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Material de estudio</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Prácticas en oficina</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h2 class="text-2xl font-semibold text-white mb-6">
+                                📋 Requisitos y Resumen
+                            </h2>
+                            
+                            <div class="bg-white rounded-2xl p-6 shadow-lg mb-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">📄 Requisitos</h3>
+                                <div class="space-y-2 text-sm text-gray-600 mb-6">
+                                    <div class="flex items-center gap-2">
+                                        <span>📋</span>
+                                        <span>DUI</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span>📜</span>
+                                        <span>Partida de nacimiento reciente (original)</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span>🩸</span>
+                                        <span>Tipo de sangre</span>
+                                    </div>
+                                </div>
+
+                                <div id="carLicenseSelection" class="text-center text-gray-500 py-4">
+                                    Selecciona una opción
+                                </div>
+                                
+                                <div id="carLicenseSummary" class="hidden">
+                                    <div class="bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl p-4 text-white mb-4">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-lg font-semibold" id="carServiceName">-</span>
+                                            <span class="text-3xl font-bold" id="carLicenseTotal">$0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button onclick="generateLicenseQuote('car')" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-3 px-6 rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                                    📋 Generar Cotización
+                                </button>
+                            </div>
+
+                            <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                                <p class="text-sm text-red-800">
+                                    ⚠️ <strong>IMPORTANTE:</strong> La licencia NO se puede comprar. Es obligatorio aprobar los exámenes.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Motorbike License Tab -->
+            <div id="motorbikeLicenseContent" class="tab-content hidden">
+                <div class="glass-effect rounded-3xl p-8">
+                    <div class="grid lg:grid-cols-2 gap-8">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-white mb-6">
+                                🏍️ Licencia de Motocicleta
+                            </h2>
+                            
+                            <div class="space-y-6">
+                                <div onclick="selectLicenseOption('motorbike', 'basic')" id="motorbikeBasic" class="license-option service-card bg-white rounded-2xl p-6 cursor-pointer">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <h3 class="text-lg font-semibold text-gray-800">📄 Solo Boletas</h3>
+                                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                                            Básico
+                                        </span>
+                                    </div>
+                                    <div class="text-right mb-4">
+                                        <span class="text-3xl font-bold price-display">$60</span>
+                                    </div>
+                                    <div class="space-y-2 text-sm text-gray-600">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Exámenes teórico, práctico y visual</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Preparación de copias</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Mandamiento de pago VMT</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div onclick="selectLicenseOption('motorbike', 'complete')" id="motorbikeComplete" class="license-option service-card bg-white rounded-2xl p-6 cursor-pointer">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <h3 class="text-lg font-semibold text-gray-800">🌟 Servicio Completo</h3>
+                                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                                            Recomendado
+                                        </span>
+                                    </div>
+                                    <div class="text-right mb-4">
+                                        <span class="text-3xl font-bold price-display">$160</span>
+                                    </div>
+                                    <div class="space-y-2 text-sm text-gray-600">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Todo lo del servicio básico +</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Pagos al Banco Hipotecario</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Pago en Sertracen</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Transporte a VMT y Sertracen 🚐</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Material de estudio digital</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Práctica en computadoras</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h2 class="text-2xl font-semibold text-white mb-6">
+                                📋 Requisitos y Resumen
+                            </h2>
+                            
+                            <div class="bg-white rounded-2xl p-6 shadow-lg mb-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">📄 Requisitos</h3>
+                                <div class="space-y-2 text-sm text-gray-600 mb-6">
+                                    <div class="flex items-center gap-2">
+                                        <span>📋</span>
+                                        <span>DUI</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span>📜</span>
+                                        <span>Partida de nacimiento reciente (original)</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span>🩸</span>
+                                        <span>Tipo de sangre</span>
+                                    </div>
+                                </div>
+
+                                <div id="motorbikeLicenseSelection" class="text-center text-gray-500 py-4">
+                                    Selecciona una opción
+                                </div>
+                                
+                                <div id="motorbikeLicenseSummary" class="hidden">
+                                    <div class="bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl p-4 text-white mb-4">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-lg font-semibold" id="motorbikeServiceName">-</span>
+                                            <span class="text-3xl font-bold" id="motorbikeLicenseTotal">$0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button onclick="generateLicenseQuote('motorbike')" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-3 px-6 rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                                    📋 Generar Cotización
+                                </button>
+                            </div>
+
+                            <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                                <p class="text-sm text-red-800">
+                                    ⚠️ <strong>IMPORTANTE:</strong> La licencia NO se puede comprar. Es obligatorio aprobar los exámenes.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Combined License Tab -->
+            <div id="combinedLicenseContent" class="tab-content hidden">
+                <div class="glass-effect rounded-3xl p-8">
+                    <div class="grid lg:grid-cols-2 gap-8">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-white mb-6">
+                                🚘🏍️ Licencia Carro + Moto
+                            </h2>
+                            
+                            <div class="space-y-6">
+                                <div onclick="selectLicenseOption('combined', 'basic')" id="combinedBasic" class="license-option service-card bg-white rounded-2xl p-6 cursor-pointer">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <h3 class="text-lg font-semibold text-gray-800">📄 Servicio Básico</h3>
+                                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                                            Básico
+                                        </span>
+                                    </div>
+                                    <div class="text-right mb-4">
+                                        <span class="text-3xl font-bold price-display">$125</span>
+                                    </div>
+                                    <div class="space-y-2 text-sm text-gray-600">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Exámenes para ambos vehículos</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Preparación de copias</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Mandamientos de pago VMT</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Material de estudio digital</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Prácticas en oficina</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div onclick="selectLicenseOption('combined', 'complete')" id="combinedComplete" class="license-option service-card bg-white rounded-2xl p-6 cursor-pointer">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <h3 class="text-lg font-semibold text-gray-800">🌟 Servicio Completo</h3>
+                                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                                            Recomendado
+                                        </span>
+                                    </div>
+                                    <div class="text-right mb-4">
+                                        <span class="text-3xl font-bold price-display">$278</span>
+                                    </div>
+                                    <div class="space-y-2 text-sm text-gray-600">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Todo lo del servicio básico +</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Pagos al Banco Hipotecario</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Pago en Sertracen (ambas licencias)</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>Transporte a VMT y Sertracen 🚐</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h2 class="text-2xl font-semibold text-white mb-6">
+                                📋 Requisitos y Resumen
+                            </h2>
+                            
+                            <div class="bg-white rounded-2xl p-6 shadow-lg mb-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">📄 Requisitos</h3>
+                                <div class="space-y-2 text-sm text-gray-600 mb-6">
+                                    <div class="flex items-center gap-2">
+                                        <span>📋</span>
+                                        <span>DUI</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span>📜</span>
+                                        <span>Partida de nacimiento reciente (original)</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span>🩸</span>
+                                        <span>Tipo de sangre</span>
+                                    </div>
+                                </div>
+
+                                <div id="combinedLicenseSelection" class="text-center text-gray-500 py-4">
+                                    Selecciona una opción
+                                </div>
+                                
+                                <div id="combinedLicenseSummary" class="hidden">
+                                    <div class="bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl p-4 text-white mb-4">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-lg font-semibold" id="combinedServiceName">-</span>
+                                            <span class="text-3xl font-bold" id="combinedLicenseTotal">$0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button onclick="generateLicenseQuote('combined')" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-3 px-6 rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                                    📋 Generar Cotización
+                                </button>
+                            </div>
+
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-sm text-green-800">
+                                    💡 <strong>INCLUYE:</strong> Todos los pagos para ambas licencias
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Juvenile License Tab -->
+            <div id="juvenileLicenseContent" class="tab-content hidden">
+                <div class="glass-effect rounded-3xl p-8">
+                    <div class="grid lg:grid-cols-2 gap-8">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-white mb-6">
+                                👦 Licencia Juvenil (15-17 años)
+                            </h2>
+                            
+                            <div class="space-y-6">
+                                <div onclick="selectJuvenileType('car')" id="juvenileCar" class="license-option service-card bg-white rounded-2xl p-6 cursor-pointer">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <h3 class="text-lg font-semibold text-gray-800">🚗 Juvenil V (Carro)</h3>
+                                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                                            15-17 años
+                                        </span>
+                                    </div>
+                                    <div class="text-sm text-gray-600 mb-4">
+                                        <p>Incluye fianza bancaria según edad:</p>
+                                        <div class="mt-2 space-y-1">
+                                            <div>• 15 años: $61.49</div>
+                                            <div>• 16 años: $42.14</div>
+                                            <div>• 17 años: $22.76</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div onclick="selectJuvenileType('motorbike')" id="juvenileMotorbike" class="license-option service-card bg-white rounded-2xl p-6 cursor-pointer">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <h3 class="text-lg font-semibold text-gray-800">🏍️ Juvenil M (Moto)</h3>
+                                        <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">
+                                            15-17 años
+                                        </span>
+                                    </div>
+                                    <div class="text-sm text-gray-600 mb-4">
+                                        <p>Incluye fianza bancaria según edad:</p>
+                                        <div class="mt-2 space-y-1">
+                                            <div>• 15 años: $61.49</div>
+                                            <div>• 16 años: $42.14</div>
+                                            <div>• 17 años: $22.76</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Age Selection -->
+                            <div id="ageSelection" class="bg-white rounded-2xl p-6 mt-6 hidden">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">🎂 Selecciona la edad</h3>
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div onclick="selectAge(15)" id="age15" class="age-option bg-gray-50 rounded-xl p-4 text-center cursor-pointer">
+                                        <div class="font-semibold">15 años</div>
+                                        <div class="text-sm text-gray-600">$61.49</div>
+                                    </div>
+                                    <div onclick="selectAge(16)" id="age16" class="age-option bg-gray-50 rounded-xl p-4 text-center cursor-pointer">
+                                        <div class="font-semibold">16 años</div>
+                                        <div class="text-sm text-gray-600">$42.14</div>
+                                    </div>
+                                    <div onclick="selectAge(17)" id="age17" class="age-option bg-gray-50 rounded-xl p-4 text-center cursor-pointer">
+                                        <div class="font-semibold">17 años</div>
+                                        <div class="text-sm text-gray-600">$22.76</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h2 class="text-2xl font-semibold text-white mb-6">
+                                📋 Requisitos Especiales
+                            </h2>
+                            
+                            <div class="bg-white rounded-2xl p-6 shadow-lg mb-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">📄 Requisitos Juvenil</h3>
+                                <div class="space-y-2 text-sm text-gray-600 mb-6">
+                                    <div class="flex items-center gap-2">
+                                        <span>🎂</span>
+                                        <span>Tener al menos 15 años</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span>📋</span>
+                                        <span>Carné de minoridad</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span>🆔</span>
+                                        <span>NIT (original)</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span>📜</span>
+                                        <span>Partida de nacimiento (original y copia)</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span>🏦</span>
+                                        <span>Fianza bancaria</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span>⚖️</span>
+                                        <span>Fianza moral autenticada ($25)</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span>👨‍👩‍👧‍👦</span>
+                                        <span>Copia DUI de ambos padres</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span>🩸</span>
+                                        <span>Tipo de sangre (original con sello)</span>
+                                    </div>
+                                </div>
+
+                                <div id="juvenileLicenseSelection" class="text-center text-gray-500 py-4">
+                                    Selecciona tipo de licencia y edad
+                                </div>
+                                
+                                <div id="juvenileLicenseSummary" class="hidden">
+                                    <div class="space-y-3 mb-4">
+                                        <div class="flex justify-between">
+                                            <span>Tipo:</span>
+                                            <span id="juvenileType">-</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span>Edad:</span>
+                                            <span id="juvenileAge">-</span>
+                                        </div>
+                                        <div class="flex justify-between font-bold">
+                                            <span>Fianza bancaria:</span>
+                                            <span id="juvenilePrice">-</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button onclick="generateJuvenileQuote()" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-3 px-6 rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                                    📋 Generar Cotización
+                                </button>
+                            </div>
+
+                            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                                <p class="text-sm text-yellow-800">
+                                    ⚠️ <strong>NOTA:</strong> Requiere aprobación de exámenes en CONDUCE y VMT
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Change Tab -->
+            <div id="categoryChangeContent" class="tab-content hidden">
+                <div class="glass-effect rounded-3xl p-8">
+                    <div class="grid lg:grid-cols-2 gap-8">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-white mb-6">
+                                🔄 Canje de Categoría
+                            </h2>
+                            
+                            <div class="space-y-6">
+                                <div onclick="selectChangeType('juvenil-particular')" id="juvenilParticular" class="license-option service-card bg-white rounded-2xl p-6 cursor-pointer">
+                                    <h3 class="text-lg font-semibold text-gray-800 mb-3">🚗 Juvenil → Particular/Liviana</h3>
+                                    <div class="text-sm text-gray-600 mb-3">
+                                        Cambio de licencia juvenil de carro a particular o liviana
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Servicio CONDUCE:</span>
+                                        <span class="font-bold text-blue-600">$45</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Pago Sertracen:</span>
+                                        <span class="font-bold text-purple-600">$52.43</span>
+                                    </div>
+                                </div>
+
+                                <div onclick="selectChangeType('juvenil-moto')" id="juvenilMoto" class="license-option service-card bg-white rounded-2xl p-6 cursor-pointer">
+                                    <h3 class="text-lg font-semibold text-gray-800 mb-3">🏍️ Juvenil M → Motocicleta</h3>
+                                    <div class="text-sm text-gray-600 mb-3">
+                                        Cambio de licencia juvenil de moto a motocicleta
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Servicio CONDUCE:</span>
+                                        <span class="font-bold text-blue-600">$45</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Pago Sertracen:</span>
+                                        <span class="font-bold text-purple-600">$52.43</span>
+                                    </div>
+                                </div>
+
+                                <div onclick="selectChangeType('particular-liviana')" id="particularLiviana" class="license-option service-card bg-white rounded-2xl p-6 cursor-pointer">
+                                    <h3 class="text-lg font-semibold text-gray-800 mb-3">🚛 Particular → Liviana</h3>
+                                    <div class="text-sm text-gray-600 mb-3">
+                                        Cambio de licencia particular a liviana
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Servicio CONDUCE:</span>
+                                        <span class="font-bold text-blue-600">$45</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-500">Pago Sertracen:</span>
+                                        <span class="font-bold text-purple-600">$52.43</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h2 class="text-2xl font-semibold text-white mb-6">
+                                📋 Requisitos y Resumen
+                            </h2>
+                            
+                            <div class="bg-white rounded-2xl p-6 shadow-lg mb-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">📄 Requisitos</h3>
+                                <div class="space-y-2 text-sm text-gray-600 mb-6">
+                                    <div class="flex items-center gap-2">
+                                        <span>📄</span>
+                                        <span>Licencia original</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span>📋</span>
+                                        <span>DUI</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span>✅</span>
+                                        <span>Aprobar exámenes en CONDUCE</span>
+                                    </div>
+                                </div>
+
+                                <div id="categoryChangeSelection" class="text-center text-gray-500 py-4">
+                                    Selecciona el tipo de cambio
+                                </div>
+                                
+                                <div id="categoryChangeSummary" class="hidden">
+                                    <div class="space-y-3 mb-4">
+                                        <div class="flex justify-between">
+                                            <span>Cambio:</span>
+                                            <span id="changeTypeName">-</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span>Servicio CONDUCE:</span>
+                                            <span class="font-bold">$45</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span>Pago Sertracen:</span>
+                                            <span class="font-bold">$52.43</span>
+                                        </div>
+                                        <div class="border-t pt-2 flex justify-between font-bold text-lg">
+                                            <span>Total:</span>
+                                            <span>$97.43</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button onclick="generateChangeQuote()" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-3 px-6 rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                                    📋 Generar Cotización
+                                </button>
+                            </div>
+
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-sm text-green-800">
+                                    ⏱️ <strong>RÁPIDO:</strong> Trámite completado en 1 día
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quote Display -->
+            <div id="quoteDisplay" class="glass-effect rounded-3xl p-8 mt-8 hidden">
+                <h2 class="text-2xl font-semibold text-white mb-6 text-center">📄 Tu Cotización</h2>
+                <div class="bg-white rounded-2xl p-6 shadow-lg">
+                    <div id="quoteContent" class="text-sm text-gray-600 space-y-2 mb-4"></div>
+                    <div class="flex gap-2">
+                        <button onclick="copyQuote()" class="flex-1 bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600 transition-colors">
+                            📋 Copiar
+                        </button>
+                        <button onclick="sendToWhatsApp()" class="flex-1 bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition-colors">
+                            📱 WhatsApp
+                        </button>
+                        <button onclick="hideQuote()" class="flex-1 bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors">
+                            ✕ Cerrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="max-w-4xl mx-auto mt-12">
+            <div class="glass-effect rounded-3xl p-8 text-center">
+                <h2 class="text-2xl font-semibold text-white mb-6">📞 Información de Contacto</h2>
+                <div class="grid md:grid-cols-2 gap-6 text-white">
+                    <div>
+                        <h3 class="font-semibold mb-2">📍 Ubicación</h3>
+                        <p class="text-sm text-white/80">6ª Avenida Oriente y Ruta de Paz<br>Barrio La Soledad<br>San Francisco Gotera, Morazán<br>(Entre gasolinera PUMA y GALVANISSA)</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold mb-2">🕒 Horarios</h3>
+                        <p class="text-sm text-white/80">Lunes a viernes: 7:30 a.m. a 4:00 p.m.<br>Sábados: 7:30 a.m. a 12:00 p.m.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedCourse = null;
+        let selectedVehicle = null;
+        let selectedLicenseType = null;
+        let selectedLicenseOption = null;
+        let selectedJuvenileType = null;
+        let selectedAge = null;
+        let selectedChangeType = null;
+
+        const coursePrices = {
+            principiante: { sedan: 220, pickup: 245, duration: "13 días prácticas + 2 días teoría" },
+            completo: { sedan: 185, pickup: 210, duration: "10 días prácticas + 2 días teoría" },
+            intermedio: { sedan: 155, pickup: 180, duration: "8 días prácticas + 2 días teoría" },
+            avanzado: { sedan: 95, pickup: 110, duration: "4 días prácticas + 2 días teoría" }
+        };
+
+        const licensePrices = {
+            car: { basic: 65, complete: 165 },
+            motorbike: { basic: 60, complete: 160 },
+            combined: { basic: 125, complete: 278 }
+        };
+
+        const juvenilePrices = {
+            15: 61.49,
+            16: 42.14,
+            17: 22.76
+        };
+
+        const changeTypes = {
+            'juvenil-particular': 'Juvenil → Particular/Liviana',
+            'juvenil-moto': 'Juvenil M → Motocicleta',
+            'particular-liviana': 'Particular → Liviana'
+        };
+
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName + 'Content').classList.remove('hidden');
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            
+            // Hide quote
+            document.getElementById('quoteDisplay').classList.add('hidden');
+            
+            // Reset selections
+            resetSelections();
+        }
+
+        function resetSelections() {
+            selectedCourse = null;
+            selectedVehicle = null;
+            selectedLicenseType = null;
+            selectedLicenseOption = null;
+            selectedJuvenileType = null;
+            selectedAge = null;
+            selectedChangeType = null;
+            
+            // Reset visual selections
+            document.querySelectorAll('.course-option, .license-option, .vehicle-option, .age-option').forEach(option => {
+                option.classList.remove('selected');
+                option.style.background = '';
+                option.style.color = '';
+            });
+        }
+
+        function selectCourse(course) {
+            selectedCourse = course;
+            
+            // Update visual selection
+            document.querySelectorAll('.course-option').forEach(option => {
+                option.classList.remove('selected');
+                option.style.background = 'white';
+                option.style.color = 'inherit';
+            });
+            
+            document.getElementById(course).classList.add('selected');
+            document.getElementById(course).style.background = 'linear-gradient(135deg, #1e40af, #7c3aed)';
+            document.getElementById(course).style.color = 'white';
+            
+            updateCourseSummary();
+        }
+
+        function selectVehicle(vehicle) {
+            selectedVehicle = vehicle;
+            
+            // Update visual selection
+            document.querySelectorAll('.vehicle-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            document.getElementById(vehicle + 'Option').classList.add('selected');
+            
+            updateCourseSummary();
+        }
+
+        function updateCourseSummary() {
+            if (selectedCourse && selectedVehicle) {
+                const courseData = coursePrices[selectedCourse];
+                const price = courseData[selectedVehicle];
+                
+                document.getElementById('courseSelection').classList.add('hidden');
+                document.getElementById('courseSummary').classList.remove('hidden');
+                
+                document.getElementById('selectedCourseName').textContent = selectedCourse.charAt(0).toUpperCase() + selectedCourse.slice(1);
+                document.getElementById('selectedVehicleType').textContent = selectedVehicle === 'sedan' ? 'Sedán' : 'Pick-up';
+                document.getElementById('courseDuration').textContent = courseData.duration;
+                document.getElementById('courseTotal').textContent = `$${price}`;
+            }
+        }
+
+        function selectLicenseOption(type, option) {
+            selectedLicenseType = type;
+            selectedLicenseOption = option;
+            
+            // Update visual selection
+            document.querySelectorAll('.license-option').forEach(opt => {
+                opt.classList.remove('selected');
+                opt.style.background = 'white';
+                opt.style.color = 'inherit';
+            });
+            
+            const elementId = type + option.charAt(0).toUpperCase() + option.slice(1);
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.classList.add('selected');
+                element.style.background = 'linear-gradient(135deg, #1e40af, #7c3aed)';
+                element.style.color = 'white';
+            }
+            
+            updateLicenseSummary(type);
+        }
+
+        function updateLicenseSummary(type) {
+            if (selectedLicenseOption) {
+                const price = licensePrices[type][selectedLicenseOption];
+                const serviceName = selectedLicenseOption === 'basic' ? 'Servicio Básico' : 'Servicio Completo';
+                
+                document.getElementById(type + 'LicenseSelection').classList.add('hidden');
+                document.getElementById(type + 'LicenseSummary').classList.remove('hidden');
+                
+                document.getElementById(type + 'ServiceName').textContent = serviceName;
+                document.getElementById(type + 'LicenseTotal').textContent = `$${price}`;
+            }
+        }
+
+        function selectJuvenileType(type) {
+            selectedJuvenileType = type;
+            
+            // Update visual selection
+            document.querySelectorAll('.license-option').forEach(opt => {
+                opt.classList.remove('selected');
+                opt.style.background = 'white';
+                opt.style.color = 'inherit';
+            });
+            
+            document.getElementById('juvenile' + type.charAt(0).toUpperCase() + type.slice(1)).classList.add('selected');
+            document.getElementById('juvenile' + type.charAt(0).toUpperCase() + type.slice(1)).style.background = 'linear-gradient(135deg, #1e40af, #7c3aed)';
+            document.getElementById('juvenile' + type.charAt(0).toUpperCase() + type.slice(1)).style.color = 'white';
+            
+            // Show age selection
+            document.getElementById('ageSelection').classList.remove('hidden');
+            
+            updateJuvenileSummary();
+        }
+
+        function selectAge(age) {
+            selectedAge = age;
+            
+            // Update visual selection
+            document.querySelectorAll('.age-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            document.getElementById('age' + age).classList.add('selected');
+            
+            updateJuvenileSummary();
+        }
+
+        function updateJuvenileSummary() {
+            if (selectedJuvenileType && selectedAge) {
+                const price = juvenilePrices[selectedAge];
+                
+                document.getElementById('juvenileLicenseSelection').classList.add('hidden');
+                document.getElementById('juvenileLicenseSummary').classList.remove('hidden');
+                
+                document.getElementById('juvenileType').textContent = selectedJuvenileType === 'car' ? 'Juvenil V (Carro)' : 'Juvenil M (Moto)';
+                document.getElementById('juvenileAge').textContent = selectedAge + ' años';
+                document.getElementById('juvenilePrice').textContent = `$${price}`;
+            }
+        }
+
+        function selectChangeType(type) {
+            selectedChangeType = type;
+            
+            // Update visual selection
+            document.querySelectorAll('.license-option').forEach(opt => {
+                opt.classList.remove('selected');
+                opt.style.background = 'white';
+                opt.style.color = 'inherit';
+            });
+            
+            const elementMap = {
+                'juvenil-particular': 'juvenilParticular',
+                'juvenil-moto': 'juvenilMoto',
+                'particular-liviana': 'particularLiviana'
+            };
+            
+            const element = document.getElementById(elementMap[type]);
+            if (element) {
+                element.classList.add('selected');
+                element.style.background = 'linear-gradient(135deg, #1e40af, #7c3aed)';
+                element.style.color = 'white';
+            }
+            
+            updateChangeSummary();
+        }
+
+        function updateChangeSummary() {
+            if (selectedChangeType) {
+                document.getElementById('categoryChangeSelection').classList.add('hidden');
+                document.getElementById('categoryChangeSummary').classList.remove('hidden');
+                
+                document.getElementById('changeTypeName').textContent = changeTypes[selectedChangeType];
+            }
+        }
+
+        function generateCourseQuote() {
+            if (!selectedCourse || !selectedVehicle) {
+                alert('Por favor selecciona un curso y tipo de vehículo');
+                return;
+            }
+            
+            const courseData = coursePrices[selectedCourse];
+            const price = courseData[selectedVehicle];
+            
+            const quoteContent = `
+                <div class="font-semibold text-lg mb-3">🏁 CONDUCE - Escuela de Manejo</div>
+                <div class="mb-2"><strong>Curso:</strong> ${selectedCourse.charAt(0).toUpperCase() + selectedCourse.slice(1)}</div>
+                <div class="mb-2"><strong>Vehículo:</strong> ${selectedVehicle === 'sedan' ? 'Sedán' : 'Pick-up'}</div>
+                <div class="mb-2"><strong>Duración:</strong> ${courseData.duration}</div>
+
+                <div class="border-t pt-2 mt-3 font-bold text-lg">PRECIO: $${price}</div>
+            `;
+            
+            document.getElementById('quoteContent').innerHTML = quoteContent;
+            document.getElementById('quoteDisplay').classList.remove('hidden');
+        }
+
+        function generateLicenseQuote(type) {
+            if (!selectedLicenseOption) {
+                alert('Por favor selecciona una opción de servicio');
+                return;
+            }
+            
+            const price = licensePrices[type][selectedLicenseOption];
+            const serviceName = selectedLicenseOption === 'basic' ? 'Servicio Básico' : 'Servicio Completo';
+            
+            let licenseType = '';
+            if (type === 'car') licenseType = 'Carro';
+            else if (type === 'motorbike') licenseType = 'Motocicleta';
+            else if (type === 'combined') licenseType = 'Carro + Motocicleta';
+            
+            let services = '';
+            if (selectedLicenseOption === 'basic') {
+                services = `
+                    <div>• Exámenes teórico, práctico y visual</div>
+                    <div>• Preparación de copias de requisitos</div>
+                    <div>• Mandamiento de pago para VMT</div>
+                    ${type === 'combined' ? '<div>• Material de estudio digital</div><div>• Prácticas en oficina</div>' : ''}
+                `;
+            } else {
+                services = `
+                    <div>• Exámenes teórico, práctico y visual</div>
+                    <div>• Preparación de copias de requisitos</div>
+                    <div>• Mandamiento de pago para VMT</div>
+                    <div>• Pagos al Banco Hipotecario</div>
+                    <div>• Pago en Sertracen por licencia${type === 'combined' ? 's' : ''}</div>
+                    <div>• Transporte a VMT San Miguel y Sertracen</div>
+                    ${type === 'motorbike' || type === 'combined' ? '<div>• Material de estudio digital</div><div>• Práctica en computadoras</div>' : ''}
+                `;
+            }
+            
+            const quoteContent = `
+                <div class="font-semibold text-lg mb-3">🏁 CONDUCE - Licencia de ${licenseType}</div>
+                <div class="mb-2"><strong>Servicio:</strong> ${serviceName}</div>
+                <div class="mb-3"><strong>Incluye:</strong></div>
+                <div class="text-sm mb-3">${services}</div>
+                <div class="border-t pt-2 mt-3 font-bold text-lg">PRECIO: $${price}</div>
+                <div class="text-xs text-red-600 mt-3">⚠️ IMPORTANTE: La licencia NO se puede comprar. Es obligatorio aprobar los exámenes.</div>
+            `;
+            
+            document.getElementById('quoteContent').innerHTML = quoteContent;
+            document.getElementById('quoteDisplay').classList.remove('hidden');
+        }
+
+        function generateJuvenileQuote() {
+            if (!selectedJuvenileType || !selectedAge) {
+                alert('Por favor selecciona el tipo de licencia y la edad');
+                return;
+            }
+            
+            const price = juvenilePrices[selectedAge];
+            const licenseType = selectedJuvenileType === 'car' ? 'Juvenil V (Carro)' : 'Juvenil M (Moto)';
+            
+            const quoteContent = `
+                <div class="font-semibold text-lg mb-3">🏁 CONDUCE - Licencia ${licenseType}</div>
+                <div class="mb-2"><strong>Edad:</strong> ${selectedAge} años</div>
+                <div class="mb-3"><strong>Requisitos especiales:</strong></div>
+                <div class="text-sm mb-3">
+                    <div>• Carné de minoridad</div>
+                    <div>• NIT (original)</div>
+                    <div>• Partida de nacimiento (original y copia)</div>
+                    <div>• Fianza bancaria</div>
+                    <div>• Fianza moral autenticada ($25)</div>
+                    <div>• Copia DUI de ambos padres</div>
+                    <div>• Tipo de sangre (original con sello)</div>
+                </div>
+                <div class="border-t pt-2 mt-3 font-bold text-lg">FIANZA BANCARIA: $${price}</div>
+                <div class="text-xs text-yellow-600 mt-3">⚠️ Requiere aprobación de exámenes en CONDUCE y VMT</div>
+            `;
+            
+            document.getElementById('quoteContent').innerHTML = quoteContent;
+            document.getElementById('quoteDisplay').classList.remove('hidden');
+        }
+
+        function generateChangeQuote() {
+            if (!selectedChangeType) {
+                alert('Por favor selecciona el tipo de cambio');
+                return;
+            }
+            
+            const changeName = changeTypes[selectedChangeType];
+            
+            const quoteContent = `
+                <div class="font-semibold text-lg mb-3">🏁 CONDUCE - Canje de Categoría</div>
+                <div class="mb-2"><strong>Cambio:</strong> ${changeName}</div>
+                <div class="mb-3"><strong>Requisitos:</strong></div>
+                <div class="text-sm mb-3">
+                    <div>• Licencia original</div>
+                    <div>• DUI</div>
+                    <div>• Aprobar exámenes en CONDUCE</div>
+                </div>
+                <div class="mb-2">Servicio CONDUCE: $45</div>
+                <div class="mb-2">Pago Sertracen: $52.43</div>
+                <div class="border-t pt-2 mt-3 font-bold text-lg">TOTAL: $97.43</div>
+                <div class="text-xs text-green-600 mt-3">⏱️ Trámite completado en 1 día</div>
+            `;
+            
+            document.getElementById('quoteContent').innerHTML = quoteContent;
+            document.getElementById('quoteDisplay').classList.remove('hidden');
+        }
+
+        function copyQuote() {
+            const quoteText = document.getElementById('quoteContent').innerText;
+            navigator.clipboard.writeText(quoteText).then(() => {
+                alert('¡Cotización copiada al portapapeles!');
+            });
+        }
+
+        function sendToWhatsApp() {
+            const quoteText = document.getElementById('quoteContent').innerText;
+            // Número de WhatsApp de CONDUCE
+            const phoneNumber = '50375527982'; // Formato: código país + número sin espacios ni símbolos
+            
+            // Codifica el mensaje para URL
+            const encodedMessage = encodeURIComponent(quoteText);
+            
+            // Crea el enlace de WhatsApp
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            
+            // Abre WhatsApp en una nueva ventana
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function hideQuote() {
+            document.getElementById('quoteDisplay').classList.add('hidden');
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'975d904645bcc0a5',t:'MTc1NjMxODYyMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
