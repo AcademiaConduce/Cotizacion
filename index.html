@@ -1200,6 +1200,14 @@
             
             document.getElementById('quoteContent').innerHTML = quoteContent;
             document.getElementById('quoteDisplay').classList.remove('hidden');
+            
+            // Desplazarse automáticamente a la cotización
+            setTimeout(() => {
+                document.getElementById('quoteDisplay').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }, 100);
         }
 
         function generateLicenseQuote(type) {
@@ -1247,6 +1255,14 @@
             
             document.getElementById('quoteContent').innerHTML = quoteContent;
             document.getElementById('quoteDisplay').classList.remove('hidden');
+            
+            // Desplazarse automáticamente a la cotización
+            setTimeout(() => {
+                document.getElementById('quoteDisplay').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }, 100);
         }
 
         function generateJuvenileQuote() {
@@ -1277,6 +1293,14 @@
             
             document.getElementById('quoteContent').innerHTML = quoteContent;
             document.getElementById('quoteDisplay').classList.remove('hidden');
+            
+            // Desplazarse automáticamente a la cotización
+            setTimeout(() => {
+                document.getElementById('quoteDisplay').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }, 100);
         }
 
         function generateChangeQuote() {
@@ -1304,6 +1328,14 @@
             
             document.getElementById('quoteContent').innerHTML = quoteContent;
             document.getElementById('quoteDisplay').classList.remove('hidden');
+            
+            // Desplazarse automáticamente a la cotización
+            setTimeout(() => {
+                document.getElementById('quoteDisplay').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }, 100);
         }
 
         function copyQuote() {
@@ -1316,14 +1348,7 @@
         function sendToWhatsApp() {
             const quoteText = document.getElementById('quoteContent').innerText;
             const phoneNumber = '50375527982';
-            
-            // Limpia caracteres especiales que pueden aparecer ilegibles
-            const cleanText = quoteText
-                .replace(/[^\w\s$.:()•✓⚠️⏱️-]/g, '')
-                .replace(/\s+/g, ' ')
-                .trim();
-            
-            const encodedMessage = encodeURIComponent(cleanText);
+            const encodedMessage = encodeURIComponent(quoteText);
             const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
             
             window.open(whatsappUrl, '_blank');
@@ -1333,5 +1358,5 @@
             document.getElementById('quoteDisplay').classList.add('hidden');
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'975dde4de2714f2a',t:'MTc1NjMyMTgxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'975de92b116a38e7',t:'MTc1NjMyMjI2NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
