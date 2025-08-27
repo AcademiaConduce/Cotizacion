@@ -1190,7 +1190,7 @@
             const price = courseData[selectedVehicle];
             
             const quoteContent = `
-                <div class="font-semibold text-lg mb-3">🏁 CONDUCE - Escuela de Manejo</div>
+                <div class="font-semibold text-lg mb-3">CONDUCE - Escuela de Manejo</div>
                 <div class="mb-2"><strong>Curso:</strong> ${selectedCourse.charAt(0).toUpperCase() + selectedCourse.slice(1)}</div>
                 <div class="mb-2"><strong>Vehículo:</strong> ${selectedVehicle === 'sedan' ? 'Sedán' : 'Pick-up'}</div>
                 <div class="mb-2"><strong>Duración:</strong> ${courseData.duration}</div>
@@ -1237,12 +1237,12 @@
             }
             
             const quoteContent = `
-                <div class="font-semibold text-lg mb-3">🏁 CONDUCE - Licencia de ${licenseType}</div>
+                <div class="font-semibold text-lg mb-3">CONDUCE - Licencia de ${licenseType}</div>
                 <div class="mb-2"><strong>Servicio:</strong> ${serviceName}</div>
                 <div class="mb-3"><strong>Incluye:</strong></div>
                 <div class="text-sm mb-3">${services}</div>
                 <div class="border-t pt-2 mt-3 font-bold text-lg">PRECIO: $${price}</div>
-                <div class="text-xs text-red-600 mt-3">⚠️ IMPORTANTE: La licencia NO se puede comprar. Es obligatorio aprobar los exámenes.</div>
+                <div class="text-xs text-red-600 mt-3">IMPORTANTE: La licencia NO se puede comprar. Es obligatorio aprobar los exámenes.</div>
             `;
             
             document.getElementById('quoteContent').innerHTML = quoteContent;
@@ -1259,7 +1259,7 @@
             const licenseType = selectedJuvenileType === 'car' ? 'Juvenil V (Carro)' : 'Juvenil M (Moto)';
             
             const quoteContent = `
-                <div class="font-semibold text-lg mb-3">🏁 CONDUCE - Licencia ${licenseType}</div>
+                <div class="font-semibold text-lg mb-3">CONDUCE - Licencia ${licenseType}</div>
                 <div class="mb-2"><strong>Edad:</strong> ${selectedAge} años</div>
                 <div class="mb-3"><strong>Requisitos especiales:</strong></div>
                 <div class="text-sm mb-3">
@@ -1272,7 +1272,7 @@
                     <div>• Tipo de sangre (original con sello)</div>
                 </div>
                 <div class="border-t pt-2 mt-3 font-bold text-lg">FIANZA BANCARIA: $${price}</div>
-                <div class="text-xs text-yellow-600 mt-3">⚠️ Requiere aprobación de exámenes en CONDUCE y VMT</div>
+                <div class="text-xs text-yellow-600 mt-3">Requiere aprobación de exámenes en CONDUCE y VMT</div>
             `;
             
             document.getElementById('quoteContent').innerHTML = quoteContent;
@@ -1288,7 +1288,7 @@
             const changeName = changeTypes[selectedChangeType];
             
             const quoteContent = `
-                <div class="font-semibold text-lg mb-3">🏁 CONDUCE - Canje de Categoría</div>
+                <div class="font-semibold text-lg mb-3">CONDUCE - Canje de Categoría</div>
                 <div class="mb-2"><strong>Cambio:</strong> ${changeName}</div>
                 <div class="mb-3"><strong>Requisitos:</strong></div>
                 <div class="text-sm mb-3">
@@ -1299,7 +1299,7 @@
                 <div class="mb-2">Servicio CONDUCE: $45</div>
                 <div class="mb-2">Pago Sertracen: $52.43</div>
                 <div class="border-t pt-2 mt-3 font-bold text-lg">TOTAL: $97.43</div>
-                <div class="text-xs text-green-600 mt-3">⏱️ Trámite completado en 1 día</div>
+                <div class="text-xs text-green-600 mt-3">Trámite completado en 1 día</div>
             `;
             
             document.getElementById('quoteContent').innerHTML = quoteContent;
@@ -1315,16 +1315,17 @@
 
         function sendToWhatsApp() {
             const quoteText = document.getElementById('quoteContent').innerText;
-            // Número de WhatsApp de CONDUCE
-            const phoneNumber = '50375527982'; // Formato: código país + número sin espacios ni símbolos
+            const phoneNumber = '50375527982';
             
-            // Codifica el mensaje para URL
-            const encodedMessage = encodeURIComponent(quoteText);
+            // Limpia caracteres especiales que pueden aparecer ilegibles
+            const cleanText = quoteText
+                .replace(/[^\w\s$.:()•✓⚠️⏱️-]/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
             
-            // Crea el enlace de WhatsApp
+            const encodedMessage = encodeURIComponent(cleanText);
             const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
             
-            // Abre WhatsApp en una nueva ventana
             window.open(whatsappUrl, '_blank');
         }
 
@@ -1332,5 +1333,5 @@
             document.getElementById('quoteDisplay').classList.add('hidden');
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'975d904645bcc0a5',t:'MTc1NjMxODYyMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'975dde4de2714f2a',t:'MTc1NjMyMTgxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
